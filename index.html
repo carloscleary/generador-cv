@@ -2,34 +2,77 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Generador de CV Express</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generador de CV Express – Formato Clásico</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 700px; margin: auto; }
-    input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; }
-    .preview { background: #f4f4f4; padding: 15px; border: 1px solid #ccc; white-space: pre-wrap; }
-    .affiliate { margin-top: 30px; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; }
-    .btn { background-color: #4CAF50; color: white; padding: 10px; border: none; cursor: pointer; border-radius: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+    .formulario, .acciones {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .curriculum {
+      background: white;
+      padding: 20px;
+      border-top: 2px solid #4CAF50;
+      max-width: 800px;
+      margin: auto;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .curriculum, .curriculum * {
+        visibility: visible;
+      }
+      .curriculum {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="formulario">
+    <h2>Completa tus datos para generar tu currículum clásico</h2>
+    <input type="text" id="nombre" placeholder="Nombre completo"/>
+    <textarea id="perfil" placeholder="Perfil profesional (2-3 líneas)"></textarea>
+    <textarea id="experiencia" placeholder="Experiencia laboral (breve resumen)"></textarea>
+    <textarea id="formacion" placeholder="Formación académica"></textarea>
+    <input type="text" id="habilidades" placeholder="Habilidades clave (separadas por comas)"/>
 
-  <h1>Generador de CV Express</h1>
-  <p>Completa tus datos para generar un currículum básico que puedes copiar o adaptar a una plantilla profesional.</p>
+    <div class="acciones">
+      <button onclick="generarCV()">Generar Currículum</button>
+      <button onclick="window.open('https://amzn.to/4m3ilKi', '_blank')">Recomendaciones Amazon</button>
+      <button onclick="window.print()">Imprimir</button>
+    </div>
+  </div>
 
-  <input type="text" id="nombre" placeholder="Nombre completo" />
-  <textarea id="perfil" placeholder="Perfil profesional (2-3 líneas)"></textarea>
-  <textarea id="experiencia" placeholder="Experiencia laboral (breve resumen)"></textarea>
-  <textarea id="educacion" placeholder="Formación académica"></textarea>
-  <textarea id="habilidades" placeholder="Habilidades clave (separadas por comas)"></textarea>
-
-  <button class="btn" onclick="generarCV()">Generar CV</button>
-
-  <div class="preview" id="resultado"></div>
-
-  <div class="affiliate">
-    <p>🎨 ¿Quieres una plantilla profesional para tu CV?</p>
-    <a class="btn" href="https://amzn.to/45G0sKU" target="_blank">Ver plantillas de CV en Amazon</a>
+  <div class="curriculum" id="resultado">
+    <!-- Aquí aparecerá el CV generado -->
   </div>
 
   <script>
@@ -37,29 +80,22 @@
       const nombre = document.getElementById("nombre").value;
       const perfil = document.getElementById("perfil").value;
       const experiencia = document.getElementById("experiencia").value;
-      const educacion = document.getElementById("educacion").value;
+      const formacion = document.getElementById("formacion").value;
       const habilidades = document.getElementById("habilidades").value;
 
-      const resultado = `📄 CURRÍCULUM VITAE
-
-🔸 Nombre: ${nombre}
-
-🧠 Perfil Profesional:
-${perfil}
-
-💼 Experiencia:
-${experiencia}
-
-🎓 Educación:
-${educacion}
-
-🛠️ Habilidades:
-${habilidades.split(",").map(h => "• " + h.trim()).join("\n")}
+      document.getElementById("resultado").innerHTML = `
+        <h1>${nombre}</h1>
+        <hr />
+        <h3>Perfil Profesional</h3>
+        <p>${perfil}</p>
+        <h3>Experiencia Laboral</h3>
+        <p>${experiencia}</p>
+        <h3>Formación Académica</h3>
+        <p>${formacion}</p>
+        <h3>Habilidades Clave</h3>
+        <ul>${habilidades.split(',').map(h => `<li>${h.trim()}</li>`).join('')}</ul>
       `;
-
-      document.getElementById("resultado").textContent = resultado;
     }
   </script>
-
 </body>
 </html>
